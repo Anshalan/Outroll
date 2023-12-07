@@ -1,10 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { getVoiceChannelOfTriggeringUser,
-	getArrayOfMembersOfChannel,
-	sendMessageDirectlyToChannel,
-	getTextChannelOfInteraction,
-	pickRandomElements,
-} = require('../../utils'); //TODO maybe just import whole content of te file
+const utils = require('../../utils');
 const constants = require('../../constants');
 
 const name = 'rollout';
@@ -20,12 +15,30 @@ module.exports = {
 		.setName(name)
 		.setDescription(shortDescription),
 	async execute(interaction) {
-		const voiceChannelContainingAuthor = await getVoiceChannelOfTriggeringUser(interaction);
-		const connectedMembersToAuthorVoiceChannel = await getArrayOfMembersOfChannel(voiceChannelContainingAuthor);
-		await interaction.reply(`channelContainingAuthor ${voiceChannelContainingAuthor}`);
-		sendMessageDirectlyToChannel(getTextChannelOfInteraction(interaction), `connectedMembersToAuthorVoiceChannel ${connectedMembersToAuthorVoiceChannel}`);
-		const arrayX = pickRandomElements(constants.DEFAULT_AMOUNT_OF_USERS_TO_BE_SPARED, connectedMembersToAuthorVoiceChannel);
-		sendMessageDirectlyToChannel(getTextChannelOfInteraction(interaction), `chosen ${arrayX[1]}`);
-		sendMessageDirectlyToChannel(getTextChannelOfInteraction(interaction), `discarded ${arrayX[0]}`);
+		const messageToBeReturnedArray = [];
+		const voiceChannelContainingAuthor = await utils.getVoiceChannelOfTriggeringUser(interaction);
+		if (voiceChannelContainingAuthor !== 'NONE') {
+			const connectedMembersToAuthorVoiceChannel = await utils.getArrayOfMembersOfChannel(voiceChannelContainingAuthor);
+			const amuntOfUsersToBeSpared = constants.DEFAULT_AMOUNT_OF_USERS_TO_BE_SPARED;
+			if (connectedMembersToAuthorVoiceChannel.length <= amuntOfUsersToBeSpared) {
+				let message = 'Noone has to be excluded, ';
+				if (connectedMembersToAuthorVoiceChannel.length < amuntOfUsersToBeSpared) {
+					message += 'you have less then optimal number of users.';
+				}
+				else {
+					message += 'you have perfect amount of users already.';
+				}
+				messageToBeReturnedArray.push(message);
+			}
+			else {
+				const arrayX = utils.pickRandomElements(amuntOfUsersToBeSpared, connectedMembersToAuthorVoiceChannel);
+				messageToBeReturnedArray.push(`Users chosen to stay in group: ${arrayX[1]}\n`
+					+ `Users to be discarded: ${arrayX[0]}`);
+			}
+		}
+		else {
+			messageToBeReturnedArray.push('You are not at a voice channel.\n' + 'Currently this command is operating on users in channel you are connected to');
+		}
+		await interaction.reply(messageToBeReturnedArray.join('\n'));
 	},
 };
