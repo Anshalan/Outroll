@@ -23,9 +23,8 @@ module.exports = {
 		const voiceChannelContainingAuthor = await getVoiceChannelOfTriggeringUser(interaction);
 		const connectedMembersToAuthorVoiceChannel = await getArrayOfMembersOfChannel(voiceChannelContainingAuthor);
 		await interaction.reply(`channelContainingAuthor ${voiceChannelContainingAuthor}`);
-		// await interaction.reply(`connectedMembersToAuthorVoiceChannel ${connectedMembersToAuthorVoiceChannel}`);
 		sendMessageDirectlyToChannel(getTextChannelOfInteraction(interaction), `connectedMembersToAuthorVoiceChannel ${connectedMembersToAuthorVoiceChannel}`);
-		const arrayX = pickRandomElements(constants.DEFAULT_AMOUNT_OF_USERS_TO_BE_SPARED/* default value, change to 5 in beta*/, connectedMembersToAuthorVoiceChannel);
+		const arrayX = pickRandomElements(constants.DEFAULT_AMOUNT_OF_USERS_TO_BE_SPARED, connectedMembersToAuthorVoiceChannel);
 		sendMessageDirectlyToChannel(getTextChannelOfInteraction(interaction), `chosen ${arrayX[1]}`);
 		sendMessageDirectlyToChannel(getTextChannelOfInteraction(interaction), `discarded ${arrayX[0]}`);
 	},
