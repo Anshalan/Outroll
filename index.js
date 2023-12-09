@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 //const { token } = require('./config.json');
-const { getCommandFiles,
+const { getCommandFilesInUse,
 } = require('./utils');
 
 const client = new Client({
@@ -24,7 +24,7 @@ client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandsFolders = fs.readdirSync(foldersPath);
 
-for (const [command, commandPath] of getCommandFiles()) {
+for (const [command, commandPath] of getCommandFilesInUse()) {
 	// Set a new item in the Collection with the key as the command name and the value as the exported module
 	if ('data' in command && 'execute' in command) {
 		client.commands.set(command.data.name, command);
