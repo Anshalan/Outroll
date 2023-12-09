@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { getCommandFiles,
+const { getCommandFilesInUse,
 } = require('../../utils');
 
 const name = 'help';
@@ -25,7 +25,7 @@ function prepareHelpMessage() {
 	const description = 'Outroll bot is predestined to help you decide who will be excluded for next activity (game?)';
 	const commandsDescription = 'Implemented commands:';
 	const commands = [];
-	const temp = getCommandFiles();
+	const temp = getCommandFilesInUse();
 	for (const [command] of temp) {
 		const commandDoc = [];
 		commandDoc.push(`**/${command.NAME}**`);

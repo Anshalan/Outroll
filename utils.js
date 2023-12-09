@@ -31,12 +31,15 @@ function sendMessageDirectlyToChannel(textChannel, message) {
 function getTextChannelOfInteraction(interaction) {
 	return interaction.channel;
 }
-function getCommandFiles() {
+function getCommandFilesInUse() {
 	const commandFilesMap = new Map(); //command is a key, path is a value
 	const foldersPath = path.join(__dirname, 'commands');
 	const commandsFolders = fs.readdirSync(foldersPath);
 
 	for (const folder of commandsFolders) {
+		if (folder === 'unused') {
+			continue;
+		}
 		const commandsPath = path.join(foldersPath, folder);
 		const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 		for (const file of commandFiles) {
@@ -67,5 +70,5 @@ module.exports = {
 	sendMessageDirectlyToChannel,
 	getTextChannelOfInteraction,
 	pickRandomElements,
-	getCommandFiles,
+	getCommandFilesInUse,
 };
