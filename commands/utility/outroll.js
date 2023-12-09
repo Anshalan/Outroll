@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const utils = require('../../utils');
 const constants = require('../../constants');
 
-const name = 'rollout';
+const name = 'outroll';
 const shortDescription = 'Returns list of people excluded from next game'; // TODO checks if thats matches the implementation
 const longDescription = shortDescription;
 

@@ -11,6 +11,9 @@ const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
+	if (folder === 'unused') {
+		continue;
+	}
 	// Grab all the command files from the commands directory you created earlier
 	const commandsPath = path.join(foldersPath, folder);
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -37,11 +40,16 @@ const rest = new REST().setToken(process.env.token);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
-			Routes.applicationGuildCommands(process.env.clientId, process.env.guildId),
-			// Routes.applicationCommands(process.env.clientId),
+			// Routes.applicationGuildCommands(process.env.clientId, process.env.guildId),
+			Routes.applicationCommands(process.env.clientId),
 			{ body: commands },
 		);
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+
+		//delete command by id for all servers
+		// rest.delete(Routes.applicationCommand(process.env.clientId, '1182866574722486283'))
+		// 	.then(() => console.log('Successfully deleted application command'))
+		// 	.catch(console.error);
 	}
 	catch (error) {
 		// And of course, make sure you catch and log any errors!

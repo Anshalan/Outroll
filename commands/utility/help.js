@@ -4,7 +4,7 @@ const { getCommandFiles,
 
 const name = 'help';
 const shortDescription = 'Shows help for the bot. Description, commands and other information.';
-const longDescription = `${shortDescription}(YEA you are seeing just that now)`;
+const longDescription = `${shortDescription} (YEAH you are seeing just that now)`;
 
 module.exports = {
 	NAME: name,
@@ -22,7 +22,7 @@ module.exports = {
 // TODO migrate help messages to script files and extract them here to combine and list as /help content
 function prepareHelpMessage() {
 	const message = [];
-	const description = 'Rollout bot is predestined to help you decide who will be excluded for next activity (game?)';
+	const description = 'Outroll bot is predestined to help you decide who will be excluded for next activity (game?)';
 	const commandsDescription = 'Implemented commands:';
 	const commands = [];
 	const temp = getCommandFiles();
