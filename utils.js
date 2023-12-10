@@ -63,6 +63,32 @@ function pickRandomElements(amountsOfElementsToStay, elements) {
 	return [arrayToBeRerurned, removedEmelents];
 
 }
+function logIncomingInteraction(interaction) {
+	const logMessage =
+		`User: ${getCallingUserFromInteraction(interaction)} on server: ${getCallingServerFromInteraction(interaction)} used command: ${getCommandFromInteraction(interaction)}`; //TODO with parameters
+	log(logMessage);
+}
+
+function getCallingUserFromInteraction(interaction) {
+	return interaction.user.username;
+}
+function getCallingServerFromInteraction(interaction) {
+	return interaction.guild.name;
+}
+function getCommandFromInteraction(interaction) {
+	return interaction.commandName;
+}
+function log(logMessage) {
+	console.log(`${getCurrentTimestamp()} - ${logMessage}`);
+}
+function getCurrentTimestamp() {
+	return new Date().toLocaleString().replace(/T.*Z/, '');
+}
+
+async function replyWithLogInteraction(interaction, response) {
+	log(`Responding for the ${getCommandFromInteraction(interaction)} by ${getCallingUserFromInteraction(interaction)} on ${getCallingServerFromInteraction(interaction)}:\n` + response);
+	await interaction.reply(response);
+}
 
 module.exports = {
 	getVoiceChannelOfTriggeringUser,
@@ -71,4 +97,11 @@ module.exports = {
 	getTextChannelOfInteraction,
 	pickRandomElements,
 	getCommandFilesInUse,
+	logIncomingInteraction,
+	getCallingUserFromInteraction,
+	getCallingServerFromInteraction,
+	getCommandFromInteraction,
+	log,
+	getCurrentTimestamp,
+	replyWithLogInteraction,
 };

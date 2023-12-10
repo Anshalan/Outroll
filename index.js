@@ -3,9 +3,7 @@ const path = require('node:path');
 const dotenv = require('dotenv');
 dotenv.config();
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-//const { token } = require('./config.json');
-const { getCommandFilesInUse,
-} = require('./utils');
+const utils = require('./utils');
 
 const client = new Client({
 	intents: [
@@ -24,7 +22,7 @@ client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandsFolders = fs.readdirSync(foldersPath);
 
-for (const [command, commandPath] of getCommandFilesInUse()) {
+for (const [command, commandPath] of utils.getCommandFilesInUse()) {
 	// Set a new item in the Collection with the key as the command name and the value as the exported module
 	if ('data' in command && 'execute' in command) {
 		client.commands.set(command.data.name, command);
@@ -66,6 +64,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		return;
 	}
 	try {
+		utils.logIncomingInteraction(interaction);
 		await command.execute(interaction);
 	}
 	catch (error) {
@@ -77,6 +76,6 @@ client.on(Events.InteractionCreate, async interaction => {
 			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
 	}
-	console.log(interaction);
+	// console.log(interaction);
 });
 client.login(process.env.token);
