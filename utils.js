@@ -65,7 +65,7 @@ function pickRandomElements(amountsOfElementsToStay, elements) {
 }
 function logIncomingInteraction(interaction) {
 	const logMessage =
-		`User ${getCallingUserFromInteraction(interaction)} on server ${getCallingServerFromInteraction(interaction)} used command ${getCommandFromInteraction}`; //TODO with parameters
+		`User: ${getCallingUserFromInteraction(interaction)} on server: ${getCallingServerFromInteraction(interaction)} used command: ${getCommandFromInteraction(interaction)}`; //TODO with parameters
 	console.log(logMessage);
 }
 
@@ -78,6 +78,13 @@ function getCallingServerFromInteraction(interaction) {
 function getCommandFromInteraction(interaction) {
 	return interaction.commandName;
 }
+function log(logMessage) {
+	console.log(`${getCurrentTimestamp()}: ${logMessage}`);
+}
+function getCurrentTimestamp() {
+	return new Date().toLocaleString().replace(/T.*Z/, '');
+}
+
 
 module.exports = {
 	getVoiceChannelOfTriggeringUser,
@@ -90,4 +97,6 @@ module.exports = {
 	getCallingUserFromInteraction,
 	getCallingServerFromInteraction,
 	getCommandFromInteraction,
+	log,
+	getCurrentTimestamp,
 };
