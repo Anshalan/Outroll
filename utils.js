@@ -86,7 +86,7 @@ function getCurrentTimestamp() {
 }
 
 async function replyWithLogInteraction(interaction, response) {
-	log(`Responding for the ${getCommandFromInteraction(interaction)} by ${getCallingUserFromInteraction(interaction)} on ${getCallingServerFromInteraction(interaction)}:\n\t` + response);
+	log(`Responding for the ${getCommandFromInteraction(interaction)} by ${getCallingUserFromInteraction(interaction)} on ${getCallingServerFromInteraction(interaction)}:\n` + response);
 	await interaction.reply(response);
 }
 
