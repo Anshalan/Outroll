@@ -39,6 +39,7 @@ module.exports = {
 		else {
 			messageToBeReturnedArray.push('You are not at a voice channel.\n' + 'Currently this command is operating on users in channel you are connected to');
 		}
-		await interaction.reply(messageToBeReturnedArray.join('\n'));
+		await utils.replyWithLogInteraction(interaction, messageToBeReturnedArray.join('\n'));
+		// await interaction.reply(messageToBeReturnedArray.join('\n'));
 	},
 };
