@@ -32,8 +32,8 @@ module.exports = {
 			}
 			else {
 				const arrayX = utils.pickRandomElements(amuntOfUsersToBeSpared, connectedMembersToAuthorVoiceChannel);
-				messageToBeReturnedArray.push(`Users chosen to stay in group: ${arrayX[1]}\n`
-					+ `Users to be discarded: ${arrayX[0]}`);
+				messageToBeReturnedArray.push(`Users chosen to stay in group: ${arrayX[0]}\n`
+					+ `Users to be discarded: ${arrayX[1]}`);
 			}
 		}
 		else {

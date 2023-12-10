@@ -54,7 +54,7 @@ function pickRandomElements(amountsOfElementsToStay, elements) {
 	if (elements.length <= amountsOfElementsToStay) {
 		return null;
 	}
-	const arrayToBeRerurned = elements;
+	const arrayToBeRerurned = elements.slice();
 	const removedEmelents = [];
 	console.log(arrayToBeRerurned);
 	for (let i = 0; i < (elements.length - amountsOfElementsToStay); i++) {
