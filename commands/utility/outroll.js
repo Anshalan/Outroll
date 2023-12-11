@@ -5,21 +5,29 @@ const constants = require('../../constants');
 const name = 'outroll';
 const shortDescription = 'Returns list of people excluded from next game'; // TODO checks if thats matches the implementation
 const longDescription = shortDescription;
+const parametersDescription = [
+	'**_<amount>_**\t_type: Integer; allowed values >= 1_\t-\tAmount of users to be selected for activity',
+];
 
 module.exports = {
 	NAME: name,
 	SHORT_DESCRIPTION: shortDescription,
 	LONG_DESCRIPTION: longDescription,
+	PARAMETERS: parametersDescription,
 
 	data: new SlashCommandBuilder()
 		.setName(name)
-		.setDescription(shortDescription),
+		.setDescription(shortDescription)
+		.addIntegerOption(option =>
+			option.setName('amount')
+				.setDescription('Amount of users to be selected for activity')
+				.setMinValue(1)),
 	async execute(interaction) {
 		const messageToBeReturnedArray = [];
 		const voiceChannelContainingAuthor = await utils.getVoiceChannelOfTriggeringUser(interaction);
 		if (voiceChannelContainingAuthor !== 'NONE') {
 			const connectedMembersToAuthorVoiceChannel = await utils.getArrayOfMembersOfChannel(voiceChannelContainingAuthor);
-			const amuntOfUsersToBeSpared = constants.DEFAULT_AMOUNT_OF_USERS_TO_BE_SPARED;
+			const amuntOfUsersToBeSpared = interaction.options.getInteger('amount') ?? constants.DEFAULT_AMOUNT_OF_USERS_TO_BE_SPARED;
 			if (connectedMembersToAuthorVoiceChannel.length <= amuntOfUsersToBeSpared) {
 				let message = 'Noone has to be excluded, ';
 				if (connectedMembersToAuthorVoiceChannel.length < amuntOfUsersToBeSpared) {
@@ -40,6 +48,5 @@ module.exports = {
 			messageToBeReturnedArray.push('You are not at a voice channel.\n' + 'Currently this command is operating on users in channel you are connected to');
 		}
 		await utils.replyWithLogInteraction(interaction, messageToBeReturnedArray.join('\n'));
-		// await interaction.reply(messageToBeReturnedArray.join('\n'));
 	},
 };
