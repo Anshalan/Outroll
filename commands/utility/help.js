@@ -22,15 +22,18 @@ module.exports = {
 // TODO migrate help messages to script files and extract them here to combine and list as /help content
 function prepareHelpMessage() {
 	const message = [];
-	const description = 'Outroll bot is predestined to help you decide who will be excluded for next activity (game?)';
+	const description = 'Outroll bot is predestined to help you decide who will be excluded for next activity';
 	const commandsDescription = 'Implemented commands:';
 	const commands = [];
 	const temp = getCommandFilesInUse();
 	for (const [command] of temp) {
 		const commandDoc = [];
-		commandDoc.push(`**/${command.NAME}**`);
-		commandDoc.push(`_${command.LONG_DESCRIPTION}_`);
-		commands.push(commandDoc.join('\t-\t'));
+		commandDoc.push(`**/${command.NAME}** `);
+		commandDoc.push(`\t-\t${command.LONG_DESCRIPTION}`);
+		if (command.PARAMETERS != undefined) {
+			commandDoc.push(`\n\t${command.PARAMETERS}`);
+		}
+		commands.push(commandDoc.join(''));
 	}
 	const otherInformation = '';
 	message.push(description, commandsDescription, commands.join('\n'), otherInformation);
