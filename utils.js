@@ -65,6 +65,7 @@ function pickRandomElements(amountsOfElementsToStay, elements) {
 }
 function logIncomingInteraction(interaction) {
 	const logMessage = [];
+  logMessage.push(`Interaction : ${interaction.token}`);
 	logMessage.push(`User: ${getCallingUserFromInteraction(interaction)} on server: ${getCallingServerFromInteraction(interaction)} used command: ${getCommandFromInteraction(interaction)}`); //TODO with parameters
 	const commandOptions = interaction.options._hoistedOptions;
 	if (commandOptions.length > 0) {
@@ -95,7 +96,10 @@ function getCurrentTimestamp() {
 }
 
 async function replyWithLogInteraction(interaction, response) {
-	log(`Responding for the ${getCommandFromInteraction(interaction)} by ${getCallingUserFromInteraction(interaction)} on ${getCallingServerFromInteraction(interaction)}:\n` + response);
+	const logMessage =
+		`Interaction response ${interaction.token} \n` +
+		`Responding for the ${getCommandFromInteraction(interaction)} by ${getCallingUserFromInteraction(interaction)} on ${getCallingServerFromInteraction(interaction)}:\n` + response;
+	log(logMessage);
 	await interaction.reply(response);
 }
 
