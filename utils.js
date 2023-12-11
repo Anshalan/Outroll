@@ -64,10 +64,19 @@ function pickRandomElements(amountsOfElementsToStay, elements) {
 
 }
 function logIncomingInteraction(interaction) {
-	const logMessage =
-		`Interaction : ${interaction.token} \n` +
-		`User: ${getCallingUserFromInteraction(interaction)} on server: ${getCallingServerFromInteraction(interaction)} used command: ${getCommandFromInteraction(interaction)}`; //TODO with parameters
-	log(logMessage);
+	const logMessage = [];
+  logMessage.push(`Interaction : ${interaction.token}`);
+	logMessage.push(`User: ${getCallingUserFromInteraction(interaction)} on server: ${getCallingServerFromInteraction(interaction)} used command: ${getCommandFromInteraction(interaction)}`); //TODO with parameters
+	const commandOptions = interaction.options._hoistedOptions;
+	if (commandOptions.length > 0) {
+		logMessage.push('Command options:');
+		const commandOptionsToBeLogged = [];
+		commandOptions.forEach(option => {
+			commandOptionsToBeLogged.push(`\t${option.name}: ${option.value}`);
+		});
+		logMessage.push(commandOptionsToBeLogged.join('\n'));
+	}
+	log(logMessage.join('\n'));
 }
 
 function getCallingUserFromInteraction(interaction) {
