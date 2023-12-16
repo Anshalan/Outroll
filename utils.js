@@ -56,7 +56,6 @@ function pickRandomElements(amountsOfElementsToStay, elements) {
 	}
 	const arrayToBeRerurned = elements.slice();
 	const removedEmelents = [];
-	console.log(arrayToBeRerurned);
 	for (let i = 0; i < (elements.length - amountsOfElementsToStay); i++) {
 		removedEmelents.push(arrayToBeRerurned.splice(Math.floor(Math.random() * arrayToBeRerurned.length), 1));
 	}
