@@ -30,7 +30,9 @@ function prepareHelpMessage() {
 		commandDoc.push(`**/${command.NAME}** `);
 		commandDoc.push(`\t-\t${command.LONG_DESCRIPTION}`);
 		if (command.PARAMETERS != undefined) {
-			commandDoc.push(`\n\t${command.PARAMETERS}`);
+			command.PARAMETERS.forEach(parameter =>
+				commandDoc.push(`\n\t${parameter}`),
+			);
 		}
 		commands.push(commandDoc.join(''));
 	}
