@@ -61,6 +61,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		return;
 	}
 	try {
+		utils.logIncomingInteraction(interaction);
 		await command.execute(interaction);
 	}
 	catch (error) {
